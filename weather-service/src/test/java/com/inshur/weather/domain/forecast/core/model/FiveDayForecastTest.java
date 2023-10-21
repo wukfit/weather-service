@@ -9,7 +9,7 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-public class FiveOpenWeatherDayForecastTest {
+public class FiveDayForecastTest {
 
     @Test
     public void shouldGetWarmestDayWithLowestHumidityAndValidLocation() {
