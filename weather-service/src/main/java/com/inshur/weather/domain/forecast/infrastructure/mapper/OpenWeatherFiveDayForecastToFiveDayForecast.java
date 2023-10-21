@@ -7,16 +7,12 @@ import com.inshur.weather.domain.forecast.core.model.OpenWeatherFiveDayForecast;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @Component
 public class OpenWeatherFiveDayForecastToFiveDayForecast {
-    public FiveDayForecast map(OpenWeatherFiveDayForecast openWeatherFiveDayForecast) {
+    public FiveDayForecast map(final OpenWeatherFiveDayForecast openWeatherFiveDayForecast) {
 
         final List<DayForecast> dayForecastList = openWeatherFiveDayForecast.getFiveDayForecast()
                 .stream()

@@ -1,36 +1,47 @@
 package com.inshur.weather.domain.forecast.infrastructure;
 
-import com.inshur.weather.domain.forecast.core.model.Location;
-import com.inshur.weather.domain.forecast.core.model.WarmestDay;
+import com.inshur.weather.domain.forecast.core.model.*;
+import com.inshur.weather.domain.forecast.infrastructure.mapper.DayForecastToWarmestDay;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.OpenWeatherFiveDayForecastToFiveDayForecast;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
+import org.mockito.Mockito;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.Assert.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-@ContextConfiguration(classes = OpenWeatherForecastApi.class)
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
+
 @RunWith(SpringRunner.class)
 class OpenWeatherForecastApiTest {
 
-    @MockBean
-    private RestTemplate restTemplate;
-    @MockBean
-    private OpenWeatherFiveDayForecastToFiveDayForecast mapper;
-
-    @Autowired
-    private OpenWeatherForecastApi api;
-
-    // FIXME Test failing... need to remember how Spring etc works in order to wire in the dependencies
     @Test
     void shouldGetWarmestDay() {
         // Given
+        final RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
+        OpenWeatherDayForecast openWeatherDayForecast = new OpenWeatherDayForecast();
+        openWeatherDayForecast.setMaxTemp(100);
+        openWeatherDayForecast.setHumidity(50);
+
+        final OpenWeatherFiveDayForecast openWeatherFiveDayForecast = new OpenWeatherFiveDayForecast();
+        openWeatherFiveDayForecast.setFiveDayForecast(List.of(openWeatherDayForecast));
+
+        final OpenWeatherFiveDayForecastToFiveDayForecast fiveDayForecastMapper = Mockito.mock(OpenWeatherFiveDayForecastToFiveDayForecast.class);
+        final DayForecastToWarmestDay warmestDayMapper = Mockito.mock(DayForecastToWarmestDay.class);
+        final OpenWeatherForecastApi api = new OpenWeatherForecastApi(restTemplate, fiveDayForecastMapper, warmestDayMapper);
         final Location request = new Location();
+
+        when(restTemplate.exchange(Mockito.anyString(), Mockito.any(HttpMethod.class), Mockito.any(HttpEntity.class), Mockito.any(ParameterizedTypeReference.class)))
+                .thenReturn(ResponseEntity.of(Optional.of(openWeatherFiveDayForecast)));
 
         // When
         final WarmestDay forecast = api.getWarmestDay(request);
