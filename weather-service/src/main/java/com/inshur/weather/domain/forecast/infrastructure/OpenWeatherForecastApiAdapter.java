@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Objects;
 
 @Component
-public class OpenWeatherForecastApi implements WeatherForecastApi {
+public class OpenWeatherForecastApiAdapter implements WeatherForecastApi {
 
     // TODO [JIRA_123] Store this externally e.g. Vault or similar
     private static final String API_KEY = "3fd0996505c76bcc9ad26fee55ed13c5";
@@ -25,9 +25,9 @@ public class OpenWeatherForecastApi implements WeatherForecastApi {
     private final OpenWeatherFiveDayForecastToFiveDayForecast mapper;
     private final DayForecastToWarmestDay forecastToWarmestDay;
 
-    public OpenWeatherForecastApi(final RestTemplate restTemplate,
-                                  final OpenWeatherFiveDayForecastToFiveDayForecast mapper,
-                                  final DayForecastToWarmestDay forecastToWarmestDay) {
+    public OpenWeatherForecastApiAdapter(final RestTemplate restTemplate,
+                                         final OpenWeatherFiveDayForecastToFiveDayForecast mapper,
+                                         final DayForecastToWarmestDay forecastToWarmestDay) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.forecastToWarmestDay = forecastToWarmestDay;

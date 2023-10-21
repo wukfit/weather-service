@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-class OpenWeatherForecastApiTest {
+class OpenWeatherForecastApiAdapterTest {
 
     @Test
     void shouldGetWarmestDay() {
@@ -37,7 +36,7 @@ class OpenWeatherForecastApiTest {
 
         final OpenWeatherFiveDayForecastToFiveDayForecast fiveDayForecastMapper = Mockito.mock(OpenWeatherFiveDayForecastToFiveDayForecast.class);
         final DayForecastToWarmestDay warmestDayMapper = Mockito.mock(DayForecastToWarmestDay.class);
-        final OpenWeatherForecastApi api = new OpenWeatherForecastApi(restTemplate, fiveDayForecastMapper, warmestDayMapper);
+        final OpenWeatherForecastApiAdapter api = new OpenWeatherForecastApiAdapter(restTemplate, fiveDayForecastMapper, warmestDayMapper);
         final Location request = new Location();
 
         when(restTemplate.exchange(Mockito.anyString(), Mockito.any(HttpMethod.class), Mockito.any(HttpEntity.class), Mockito.any(ParameterizedTypeReference.class)))
