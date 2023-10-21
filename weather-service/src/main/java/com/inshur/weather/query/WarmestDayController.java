@@ -1,7 +1,7 @@
 package com.inshur.weather.query;
 
 import com.inshur.weather.domain.forecast.core.model.DayForecast;
-import com.inshur.weather.domain.forecast.core.model.FiveDayForecastRequest;
+import com.inshur.weather.domain.forecast.core.model.WarmestDayRequest;
 import com.inshur.weather.domain.forecast.core.ports.outgoing.WeatherForecastApi;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class WarmestDayController {
     }
 
     @GetMapping("/warmest-day")
-    public @ResponseBody DayForecast warmestDay(@Valid final FiveDayForecastRequest request) {
+    public @ResponseBody DayForecast getWarmestDay(@Valid final WarmestDayRequest request) {
         return api.getFiveDayForecast(request).getWarmestDay();
     }
 }

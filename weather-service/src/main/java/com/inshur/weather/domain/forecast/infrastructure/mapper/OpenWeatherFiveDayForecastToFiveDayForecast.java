@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -27,8 +30,7 @@ public class OpenWeatherFiveDayForecastToFiveDayForecast {
         final DayForecast dayForecast = new DayForecast();
         dayForecast.setHumidity(openWeatherDayForecast.getHumidity());
         dayForecast.setMaxTemp(openWeatherDayForecast.getMaxTemp());
-        dayForecast.setDatetime(LocalDateTime.ofInstant(Instant.ofEpochMilli(openWeatherDayForecast.getDatetime()), TimeZone
-                .getDefault().toZoneId()));
+        dayForecast.setDatetime(Date.from(Instant.ofEpochSecond(openWeatherDayForecast.getDatetime())));
         return dayForecast;
     }
 }

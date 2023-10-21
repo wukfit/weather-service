@@ -1,19 +1,20 @@
 package com.inshur.weather.domain.forecast.core.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class DayForecast {
 
-    private LocalDateTime datetime;
+    private Date datetime;
     private float maxTemp;
     private int humidity;
 
-    public LocalDateTime getDatetime() {
+    public Date getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(LocalDateTime datetime) {
+    public void setDatetime(Date datetime) {
         this.datetime = datetime;
     }
 

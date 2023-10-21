@@ -1,7 +1,7 @@
 package com.inshur.weather.domain.forecast.infrastructure;
 
 import com.inshur.weather.domain.forecast.core.model.FiveDayForecast;
-import com.inshur.weather.domain.forecast.core.model.FiveDayForecastRequest;
+import com.inshur.weather.domain.forecast.core.model.WarmestDayRequest;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.OpenWeatherFiveDayForecastToFiveDayForecast;
 
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class OpenWeatherForecastApiTest {
     @Test
     void shouldGetFiveDayForecast() {
         // Given
-        final FiveDayForecastRequest request = new FiveDayForecastRequest();
+        final WarmestDayRequest request = new WarmestDayRequest();
 
         // When
         final FiveDayForecast forecast = api.getFiveDayForecast(request);

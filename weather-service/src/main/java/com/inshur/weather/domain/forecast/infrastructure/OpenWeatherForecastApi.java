@@ -1,7 +1,7 @@
 package com.inshur.weather.domain.forecast.infrastructure;
 
 import com.inshur.weather.domain.forecast.core.model.FiveDayForecast;
-import com.inshur.weather.domain.forecast.core.model.FiveDayForecastRequest;
+import com.inshur.weather.domain.forecast.core.model.WarmestDayRequest;
 import com.inshur.weather.domain.forecast.core.model.OpenWeatherFiveDayForecast;
 import com.inshur.weather.domain.forecast.core.ports.outgoing.WeatherForecastApi;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.OpenWeatherFiveDayForecastToFiveDayForecast;
@@ -28,7 +28,7 @@ public class OpenWeatherForecastApi implements WeatherForecastApi {
     }
 
     @Override
-    public FiveDayForecast getFiveDayForecast(final FiveDayForecastRequest request) {
+    public FiveDayForecast getFiveDayForecast(final WarmestDayRequest request) {
         // TODO [JIRA] fire domain event WarmestDayRequestedEvent
         final HttpHeaders requestHeader = new HttpHeaders();
 
