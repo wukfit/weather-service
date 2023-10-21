@@ -1,4 +1,4 @@
 package com.inshur.weather.domain.forecast.core.model;
 
-public class WarmestDayRequestedEvent {
+public record WarmestDayRequestedEvent(Location location) {
 }

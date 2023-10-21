@@ -1,6 +1,7 @@
 package com.inshur.weather.domain.forecast.infrastructure;
 
 import com.inshur.weather.domain.forecast.core.model.*;
+import com.inshur.weather.domain.forecast.core.ports.outgoing.WarmestDayEventPublisher;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.DayForecastToWarmestDay;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.OpenWeatherFiveDayForecastToFiveDayForecast;
 
@@ -36,7 +37,8 @@ class OpenWeatherForecastApiAdapterTest {
 
         final OpenWeatherFiveDayForecastToFiveDayForecast fiveDayForecastMapper = Mockito.mock(OpenWeatherFiveDayForecastToFiveDayForecast.class);
         final DayForecastToWarmestDay warmestDayMapper = Mockito.mock(DayForecastToWarmestDay.class);
-        final OpenWeatherForecastApiAdapter api = new OpenWeatherForecastApiAdapter(restTemplate, fiveDayForecastMapper, warmestDayMapper);
+        final WarmestDayEventPublisher warmestDayEventPublisher = Mockito.mock(WarmestDayEventPublisherAdapter.class);
+        final OpenWeatherForecastApiAdapter api = new OpenWeatherForecastApiAdapter(restTemplate, fiveDayForecastMapper, warmestDayMapper, warmestDayEventPublisher);
         final Location request = new Location();
 
         when(restTemplate.exchange(Mockito.anyString(), Mockito.any(HttpMethod.class), Mockito.any(HttpEntity.class), Mockito.any(ParameterizedTypeReference.class)))
