@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Digits;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WarmestDayRequest {
+public class Location {
     @Digits(integer = 3, fraction = 6)
     private float latitude;
 

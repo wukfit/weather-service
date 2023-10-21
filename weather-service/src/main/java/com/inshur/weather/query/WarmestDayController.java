@@ -1,9 +1,12 @@
 package com.inshur.weather.query;
 
-import com.inshur.weather.domain.forecast.core.model.DayForecast;
-import com.inshur.weather.domain.forecast.core.model.WarmestDayRequest;
+import com.inshur.weather.domain.forecast.core.model.Location;
+import com.inshur.weather.domain.forecast.core.model.WarmestDay;
 import com.inshur.weather.domain.forecast.core.ports.outgoing.WeatherForecastApi;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +20,13 @@ public class WarmestDayController {
         this.api = api;
     }
 
+    @ExceptionHandler({ IllegalStateException.class })
+    public ResponseEntity<String> handleException(final Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     @GetMapping("/warmest-day")
-    public @ResponseBody DayForecast getWarmestDay(@Valid final WarmestDayRequest request) {
-        return api.getFiveDayForecast(request).getWarmestDay();
+    public @ResponseBody WarmestDay getWarmestDay(@Valid final Location location) {
+        return api.getWarmestDay(location);
     }
 }

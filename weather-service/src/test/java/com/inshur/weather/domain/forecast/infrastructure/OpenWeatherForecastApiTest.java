@@ -1,7 +1,7 @@
 package com.inshur.weather.domain.forecast.infrastructure;
 
-import com.inshur.weather.domain.forecast.core.model.FiveDayForecast;
-import com.inshur.weather.domain.forecast.core.model.WarmestDayRequest;
+import com.inshur.weather.domain.forecast.core.model.Location;
+import com.inshur.weather.domain.forecast.core.model.WarmestDay;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.OpenWeatherFiveDayForecastToFiveDayForecast;
 
 import org.junit.jupiter.api.Test;
@@ -28,12 +28,12 @@ class OpenWeatherForecastApiTest {
 
     // FIXME Test failing... need to remember how Spring etc works in order to wire in the dependencies
     @Test
-    void shouldGetFiveDayForecast() {
+    void shouldGetWarmestDay() {
         // Given
-        final WarmestDayRequest request = new WarmestDayRequest();
+        final Location request = new Location();
 
         // When
-        final FiveDayForecast forecast = api.getFiveDayForecast(request);
+        final WarmestDay forecast = api.getWarmestDay(request);
 
         // Then
         assertNotNull("Expected method getFiveDayForecast(...) to return a non null FiveDayForecast object", forecast);

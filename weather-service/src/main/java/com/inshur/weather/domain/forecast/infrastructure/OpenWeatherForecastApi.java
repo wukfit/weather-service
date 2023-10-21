@@ -1,9 +1,11 @@
 package com.inshur.weather.domain.forecast.infrastructure;
 
 import com.inshur.weather.domain.forecast.core.model.FiveDayForecast;
-import com.inshur.weather.domain.forecast.core.model.WarmestDayRequest;
+import com.inshur.weather.domain.forecast.core.model.Location;
 import com.inshur.weather.domain.forecast.core.model.OpenWeatherFiveDayForecast;
+import com.inshur.weather.domain.forecast.core.model.WarmestDay;
 import com.inshur.weather.domain.forecast.core.ports.outgoing.WeatherForecastApi;
+import com.inshur.weather.domain.forecast.infrastructure.mapper.DayForecastToWarmestDay;
 import com.inshur.weather.domain.forecast.infrastructure.mapper.OpenWeatherFiveDayForecastToFiveDayForecast;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -21,21 +23,25 @@ public class OpenWeatherForecastApi implements WeatherForecastApi {
 
     private final RestTemplate restTemplate;
     private final OpenWeatherFiveDayForecastToFiveDayForecast mapper;
+    private final DayForecastToWarmestDay forecastToWarmestDay;
 
-    public OpenWeatherForecastApi(final RestTemplate restTemplate, final OpenWeatherFiveDayForecastToFiveDayForecast mapper) {
+    public OpenWeatherForecastApi(final RestTemplate restTemplate,
+                                  final OpenWeatherFiveDayForecastToFiveDayForecast mapper,
+                                  final DayForecastToWarmestDay forecastToWarmestDay) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
+        this.forecastToWarmestDay = forecastToWarmestDay;
     }
 
     @Override
-    public FiveDayForecast getFiveDayForecast(final WarmestDayRequest request) {
+    public WarmestDay getWarmestDay(final Location location) {
         // TODO [JIRA] fire domain event WarmestDayRequestedEvent
         final HttpHeaders requestHeader = new HttpHeaders();
 
         requestHeader.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         final HttpEntity<Object> requestEntity = new HttpEntity<>(requestHeader);
 
-        final String url = String.format(OPEN_WEATHER_API_FORECAST_URL, request.getLatitude(), request.getLongitude(), API_KEY);
+        final String url = String.format(OPEN_WEATHER_API_FORECAST_URL, location.getLatitude(), location.getLongitude(), API_KEY);
         final ResponseEntity<OpenWeatherFiveDayForecast> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<>() {
         });
 
@@ -45,6 +51,6 @@ public class OpenWeatherForecastApi implements WeatherForecastApi {
 
         // TODO [JIRA] fire domain event WarmestDayFoundEvent
 
-        return fiveDayForecast;
+        return forecastToWarmestDay.map(fiveDayForecast.getWarmestDay());
     }
 }
